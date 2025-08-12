@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ForgeFund – Interactive Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Skip-link -->
+  <a href="#main-content" class="sr-only">Skip to main content</a>
+
+  <!-- Header -->
+  <header>
+    <h1>ForgeFund</h1>
+    <p>Impact-Driven Financial Solutions</p>
+
+    <!-- Dark-mode toggle -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+  </header>
+
+  <!-- Navigation -->
+  <nav>
+    <ul>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#contact-form">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main id="main-content">
+    <!-- Services section -->
+    <section id="services">
+      <h2>Our Services</h2>
+      <button class="accordion">Advisory</button>
+      <div class="panel">
+        <p>Strategic guidance for high-growth portfolios.</p>
+      </div>
+
+      <button class="accordion">Asset Management</button>
+      <div class="panel">
+        <p>Data-driven investment management built for impact.</p>
+      </div>
+
+      <button class="accordion">Fintech Solutions</button>
+      <div class="panel">
+        <p>Scalable technology that modernizes operations.</p>
+      </div>
+    </section>
+
+    <!-- FAQ section -->
+    <section id="faq">
+      <h2>Frequently Asked Questions</h2>
+      <ul id="faq-list">
+        <li>
+          <button class="faq-toggle" aria-expanded="false">
+            What is your minimum investment?
+          </button>
+          <p class="faq-answer" hidden>
+            Our starter tier begins at USD&nbsp;$100&nbsp;000.
+          </p>
+        </li>
+        <li>
+          <button class="faq-toggle" aria-expanded="false">
+            Do you offer ESG-only portfolios?
+          </button>
+          <p class="faq-answer" hidden>
+            Yes—every portfolio can be tailored to strict ESG criteria.
+          </p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Contact Form -->
+    <section id="contact-form">
+      <h2>Contact Us</h2>
+      <form id="contact" novalidate>
+        <label>
+          First Name *
+          <input type="text" name="firstName" required minlength="2">
+          <small class="error" aria-live="polite"></small>
+        </label>
+
+        <label>
+          Last Name *
+          <input type="text" name="lastName" required minlength="2">
+          <small class="error" aria-live="polite"></small>
+        </label>
+
+        <label>
+          Email Address *
+          <input type="email" name="email" required>
+          <small class="error" aria-live="polite"></small>
+        </label>
+
+        <label>
+          Phone
+          <input type="tel" name="phone" pattern="^\+?[0-9\s\-]{7,15}$">
+          <small class="error" aria-live="polite"></small>
+        </label>
+
+        <label>
+          Investment Amount ($) *
+          <input type="number" name="investment" min="100000" step="1000" required>
+          <small class="error" aria-live="polite"></small>
+        </label>
+
+        <label>
+          Message
+          <textarea name="message" maxlength="500"></textarea>
+        </label>
+
+        <button type="submit">Send Message</button>
+        <p id="form-success" class="success" hidden>Thank you—we’ll be in touch soon!</p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 ForgeFund. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+/*--- Reset & helpers --- */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+/* --- Theme variables --- */
+:root{
+  --bg:#ffffff;
+  --text:#111827;
+  --primary:#4f46e5;
+  --panel:#f9fafb;
+  --border:#e5e7eb;
+  --error:#ef4444;
+  --success:#10b981;
+}
+body.dark{
+  --bg:#111827;
+  --text:#f9fafb;
+  --panel:#1f2937;
+  --border:#374151;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  line-height:1.6;
+  background:var(--bg);
+  color:var(--text);
+  transition:background .3s,color .3s;
+}
+header,nav,main,footer{padding:1rem}
+header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--primary)}
+nav ul{display:flex;gap:1rem;list-style:none;margin-top:.5rem}
+a{color:var(--primary);text-decoration:none}
+button{cursor:pointer;font-size:1rem;border:none;background:var(--primary);color:#fff;padding:.5rem 1rem;border-radius:4px;transition:opacity .2s}
+button:hover{opacity:.9}
+
+/* --- Accordion --- */
+.accordion,.faq-toggle{width:100%;text-align:left;background:var(--panel);color:var(--text);border:1px solid var(--border);padding:.75rem;margin-bottom:.25rem;border-radius:4px}
+.panel,.faq-answer{background:var(--panel);border:1px solid var(--border);border-top:none;padding:.75rem;margin-bottom:1rem;border-radius:0 0 4px 4px}
+.panel[hidden],.faq-answer[hidden]{display:none}
+
+/* --- Form --- */
+form{display:grid;gap:1rem;max-width:640px}
+label{font-weight:bold}
+input,textarea{width:100%;padding:.5rem;margin-top:.25rem;border:1px solid var(--border);border-radius:4px;background:var(--bg);color:var(--text)}
+input:focus,textarea:focus{outline:2px solid var(--primary)}
+.error{color:var(--error);font-size:.875rem}
+.success{color:var(--success);font-weight:bold}
+/* ============================================================
+   1.  Utility – Dark / Light mode toggle
+   ============================================================ */
+const toggleBtn   = document.getElementById('theme-toggle');
+const htmlElement = document.documentElement;
+
+// On page load, respect saved preference
+(function initTheme() {
+  if (localStorage.getItem('theme') === 'dark') {
+    htmlElement.classList.add('dark');
+    toggleBtn.textContent = '☀️';
+  }
+})();
+
+toggleBtn.addEventListener('click', () => {
+  htmlElement.classList.toggle('dark');
+  const isDark = htmlElement.classList.contains('dark');
+  toggleBtn.textContent = isDark ? '☀️' : '🌙';
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+});
+
+/* ============================================================
+   2.  Collapsible accordion (Services section)
+   ============================================================ */
+document.querySelectorAll('.accordion').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const panel = btn.nextElementSibling;
+    const isOpen = !panel.hidden;
+    // Close any open panel (optional UX nicety)
+    document.querySelectorAll('.panel').forEach(p => p.hidden = true);
+    panel.hidden = isOpen;            // toggle current
+  });
+});
+
+/* ============================================================
+   3.  FAQ collapsible list
+   ============================================================ */
+document.querySelectorAll('.faq-toggle').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const answer = btn.nextElementSibling;
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', !expanded);
+    answer.hidden = expanded;
+  });
+});
+
+/* ============================================================
+   4.  Custom form validation
+   ============================================================ */
+const form = document.getElementById('contact');
+const successMsg = document.getElementById('form-success');
+
+// Regex helpers
+const emailRegex  = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const phoneRegex  = /^\+?[0-9\s\-]{7,15}$/;
+
+// Field-level validators
+const validators = {
+  firstName: v => v.trim().length >= 2       || 'First name must be at least 2 characters.',
+  lastName : v => v.trim().length >= 2       || 'Last name must be at least 2 characters.',
+  email    : v => emailRegex.test(v)         || 'Please enter a valid email address.',
+  phone    : v => !v || phoneRegex.test(v)   || 'Enter a valid phone number.',
+  investment: v => Number(v) >= 100000       || 'Minimum investment is $100,000.'
+};
+
+// Attach real-time validation
+form.querySelectorAll('input, textarea').forEach(field => {
+  if (!validators[field.name]) return; // skip if no rule defined
+
+  const errorBox = field.parentElement.querySelector('.error');
+
+  field.addEventListener('input', () => {
+    const msg = validators[field.name](field.value);
+    errorBox.textContent = msg || '';
+    field.setCustomValidity(msg || '');
+  });
+});
+
+// Prevent submission and show success once valid
+form.addEventListener('submit', e => {
+  e.preventDefault(); // stop native submission
+
+  // Run all validators once more
+  let valid = true;
+  form.querySelectorAll('input, textarea').forEach(field => {
+    if (!validators[field.name]) return;
+    const msg = validators[field.name](field.value);
+    if (msg) {
+      field.parentElement.querySelector('.error').textContent = msg;
+      valid = false;
+    }
+  });
+
+  if (valid) {
+    form.reset();
+    successMsg.hidden = false;
+    setTimeout(() => successMsg.hidden = true, 5000);
+  }
+});
